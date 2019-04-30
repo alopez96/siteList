@@ -4,12 +4,12 @@
     android:id="@+id/parent_layout"
     android:padding="15dp">
 
-    <!--display color-->
-    <de.hdodenhof.circleimageview.CircleImageView
+    <!--display color thumbnail-->
+    <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:id="@+id/color_view"
-        android:src="#000" />
+        android:background="#000"/>
 
     <!--display name-->
     <TextView

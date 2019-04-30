@@ -1,5 +1,6 @@
 package com.squarespace.interview.android;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,9 +23,11 @@ public class SiteDetailsActivity extends AppCompatActivity {
         //log variable for debugging
         private static final String TAG = "SiteDetailsActivity";
 
-        private String name, slogan, url, desc;
+        //declare string variables
+        private String color, name, slogan, url, desc;
 
         //declare textView widgets
+        private ImageView colorView;
         private TextView nameTV;
         private TextView sloganTV;
         private TextView urlTV;
@@ -38,31 +41,31 @@ public class SiteDetailsActivity extends AppCompatActivity {
         //call get input
         getInput();
 
-        Log.d(TAG,"name " + name);
-        Log.d(TAG,"slogan: " + slogan);
-        Log.d(TAG,"url: " + url);
-        Log.d(TAG,"desc: " + desc);
-
         //attach variables to text widgets
+        colorView = findViewById(R.id.color_view);
         nameTV = findViewById(R.id.name_tv);
         sloganTV = findViewById(R.id.slogan_tv);
-        urlTV = findViewById(R.id.desc_tv);
+        urlTV = findViewById(R.id.url_tv);
         descTV = findViewById(R.id.desc_tv);
 
+        //set background to thumbnail
+        colorView.setBackgroundColor(Color.parseColor(color));
         //set string values to their respective TextViews
         nameTV.setText(name);
-        sloganTV.setText(slogan);
-        urlTV.setText(url);
-        descTV.setText(desc);
+        sloganTV.setText("Slogan: " + slogan);
+        urlTV.setText("URL: " + url);
+        descTV.setText("Description: " + desc);
 
 
   }
 
   private void getInput(){
-      name = getIntent().getStringExtra("name");
-      slogan = getIntent().getStringExtra("slogan");
-      url = getIntent().getStringExtra("url");
-      desc = getIntent().getStringExtra("desc");
+        //get string values from RecyclerViewAdapter
+        color = getIntent().getStringExtra("color");
+        name = getIntent().getStringExtra("name");
+        slogan = getIntent().getStringExtra("slogan");
+        url = getIntent().getStringExtra("url");
+        desc = getIntent().getStringExtra("desc");
   }
 
 

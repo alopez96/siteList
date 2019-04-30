@@ -83,7 +83,6 @@ public class SiteListActivity extends AppCompatActivity {
                       for (int i = 0; i < sitesData.length(); i++) {
                           sortedJsonArray.put(jsonValues.get(i));
                       }
-
                       //end sort array --------------------------------
 
                       //loop through each site in the sites array

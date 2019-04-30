@@ -10,12 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
@@ -33,7 +32,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     //default constructor for recycler view adapter
     public RecyclerViewAdapter(ArrayList<String> colorList, ArrayList<String> nameList,
                                ArrayList<String> sloganList, ArrayList<String> urlList, ArrayList<String> descList,
-                               Context mContext) {
+                               Context mContext)
+    {
         this.colorList = colorList;
         this.nameList = nameList;
         this.sloganList = sloganList;
@@ -55,27 +55,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder,final int i) {
-        //log every time item is created
-        Log.d(TAG, "onBindViewHolder: called");
+
+        //save color string with #
+        final String color = "#"+colorList.get(i);
 
         //set color, name, and slogan to their field
-        viewHolder.colorView.setCircleBackgroundColor(000000);
+        viewHolder.colorView.setBackgroundColor(Color.parseColor(color));
         viewHolder.nameText.setText(nameList.get(i));
         viewHolder.sloganText.setText(sloganList.get(i));
 
-        //onCLickListener
+        //handle onCLickListener for cell
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"clicked on " + nameList.get(i));
 
+                //create new activity
                 Intent intent = new Intent(mContext, SiteDetailsActivity.class);
 
                 //pass in the variables we have already retrieved
+                intent.putExtra("color", color);
                 intent.putExtra("name", nameList.get(i));
                 intent.putExtra("slogan", sloganList.get(i));
                 intent.putExtra("url", urlList.get(i));
                 intent.putExtra("desc", descList.get(i));
+
+                //start new activity
                 mContext.startActivity(intent);
             }
         });
@@ -84,14 +89,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        //tell adapter the number of list items in list
+        //tell adapter the number of list items
         return nameList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         //declare widget items
-        CircleImageView colorView;
+        ImageView colorView;
         TextView nameText;
         TextView sloganText;
         RelativeLayout parentLayout;
@@ -103,7 +108,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             colorView = itemView.findViewById(R.id.color_view);
             nameText = itemView.findViewById(R.id.name_tv);
             sloganText = itemView.findViewById(R.id.slogan_tv);
-
             parentLayout = itemView.findViewById(R.id.parent_layout);
 
         }
