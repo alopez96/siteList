@@ -1,7 +1,9 @@
 package com.squarespace.interview.android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,13 +26,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<String> colorList = new ArrayList<>();
     private ArrayList<String> nameList = new ArrayList<>();
     private ArrayList<String> sloganList = new ArrayList<>();
+    private ArrayList<String> urlList = new ArrayList<>();
+    private ArrayList<String> descList = new ArrayList<>();
     private Context mContext;
 
     //default constructor for recycler view adapter
-    public RecyclerViewAdapter(ArrayList<String> colorList, ArrayList<String> nameList, ArrayList<String> sloganList, Context mContext) {
+    public RecyclerViewAdapter(ArrayList<String> colorList, ArrayList<String> nameList,
+                               ArrayList<String> sloganList, ArrayList<String> urlList, ArrayList<String> descList,
+                               Context mContext) {
         this.colorList = colorList;
         this.nameList = nameList;
         this.sloganList = sloganList;
+        this.urlList = urlList;
+        this.descList = descList;
         this.mContext = mContext;
     }
 
@@ -60,6 +68,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 Log.d(TAG,"clicked on " + nameList.get(i));
+
+                Intent intent = new Intent(mContext, SiteDetailsActivity.class);
+
+                //pass in the variables we have already retrieved
+                intent.putExtra("name", nameList.get(i));
+                intent.putExtra("slogan", sloganList.get(i));
+                intent.putExtra("url", urlList.get(i));
+                intent.putExtra("desc", descList.get(i));
+                mContext.startActivity(intent);
             }
         });
 

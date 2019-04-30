@@ -33,6 +33,8 @@ public class SiteListActivity extends AppCompatActivity {
     private ArrayList<String> mColors = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mSlogans = new ArrayList<>();
+    private ArrayList<String> mUrls = new ArrayList<>();
+    private ArrayList<String> mDescs = new ArrayList<>();
 
       @Override
       protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +90,16 @@ public class SiteListActivity extends AppCompatActivity {
                       for (int i = 0; i < sitesData.length(); ++i) {
                           //create an object for each site
                           final JSONObject site = sortedJsonArray.getJSONObject(i);
+                          //print name on log
                           System.out.println("name: " + site.getString("name"));
                           //store the color, name, and slogan (of each site) in respective array
                           mColors.add(site.getString("color"));
                           mNames.add(site.getString("name"));
                           mSlogans.add(site.getString("slogan"));
+
+                          //getting url and description here to save time fetching later
+                          mUrls.add(site.getString("url"));
+                          mDescs.add(site.getString("description"));
                       }
 
                   } catch (Exception e) {
@@ -114,7 +121,6 @@ public class SiteListActivity extends AppCompatActivity {
 
           //continue after thread has completed
           //load recycler view
-          //Collections.sort(mNames);
           initRecyclerView();
 
       }
@@ -125,7 +131,7 @@ public class SiteListActivity extends AppCompatActivity {
       private void initRecyclerView(){
 
           RecyclerView recyclerView =  findViewById(R.id.my_recycler_view);
-          RecyclerViewAdapter adapter = new RecyclerViewAdapter(mColors, mNames, mSlogans, this);
+          RecyclerViewAdapter adapter = new RecyclerViewAdapter(mColors, mNames, mSlogans, mUrls, mDescs, this);
           recyclerView.setAdapter(adapter);
           recyclerView.setLayoutManager(new LinearLayoutManager(this));
       }
