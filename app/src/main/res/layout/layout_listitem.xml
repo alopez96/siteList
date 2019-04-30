@@ -13,13 +13,13 @@
 
     <!--display name-->
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:text="name"
         android:id="@+id/name_tv"
         android:textColor="#000"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="30dp"/>
+        android:layout_marginLeft="50dp"/>
 
     <!--display slogan-->
     <TextView
@@ -29,7 +29,7 @@
         android:id="@+id/slogan_tv"
         android:textColor="#000"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="80dp"/>
+        android:layout_marginLeft="50dp"/>
 
 
 </RelativeLayout>

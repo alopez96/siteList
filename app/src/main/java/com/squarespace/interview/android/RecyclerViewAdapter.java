@@ -50,10 +50,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //log every time item is created
         Log.d(TAG, "onBindViewHolder: called");
 
-        //viewHolder.colorView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        //set color, name, and slogan to their field
         viewHolder.colorView.setCircleBackgroundColor(000000);
-
         viewHolder.nameText.setText(nameList.get(i));
+        viewHolder.sloganText.setText(sloganList.get(i));
 
         //onCLickListener
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
