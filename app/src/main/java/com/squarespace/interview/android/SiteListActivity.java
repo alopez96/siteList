@@ -36,75 +36,18 @@ public class SiteListActivity extends AppCompatActivity {
     private ArrayList<String> mUrls = new ArrayList<>();
     private ArrayList<String> mDescs = new ArrayList<>();
 
+    private SquarespaceClient myClient = new SquarespaceClient(this);
+
       @Override
       protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
           setContentView(R.layout.activity_site_list);
 
-          context = this;
-
-          //declare SquareSpaceClient instance
-          final SquarespaceClient myClient;
-          myClient = new SquarespaceClient(context);
-
           //create new thread instance for requesting data
           Thread thread = new Thread(new Runnable() {
               @Override
               public void run() {
-                  try  {
-                      //store result in string variable
-                      String result = myClient.requestSites();
-                      //create JSON object from result
-                      final JSONObject obj = new JSONObject(result);
-                      //create JSON array from sites array
-                      final JSONArray sitesData = obj.getJSONArray("sites");
-
-                      //start sort array (retrieved from stack overflow source) --------
-                      JSONArray sortedJsonArray = new JSONArray();
-                      List<JSONObject> jsonValues = new ArrayList<JSONObject>();
-                      for (int i = 0; i < sitesData.length(); i++) {
-                          jsonValues.add(sitesData.getJSONObject(i));
-                      }
-                      Collections.sort( jsonValues, new Comparator<JSONObject>() {
-                          private static final String KEY_NAME = "name";
-                          @Override
-                          public int compare(JSONObject a, JSONObject b) {
-                              String valA = new String();
-                              String valB = new String();
-                              try {
-                                  valA = (String) a.get(KEY_NAME);
-                                  valB = (String) b.get(KEY_NAME);
-                              }
-                              catch (JSONException e) { }
-                              return valA.compareTo(valB);
-                          }
-                      });
-
-                      for (int i = 0; i < sitesData.length(); i++) {
-                          sortedJsonArray.put(jsonValues.get(i));
-                      }
-                      //end sort array --------------------------------
-
-                      //loop through each site in the sites array
-                      for (int i = 0; i < sitesData.length(); ++i) {
-                          //create an object for each site
-                          final JSONObject site = sortedJsonArray.getJSONObject(i);
-                          //print name on log
-                          System.out.println("name: " + site.getString("name"));
-                          //store the color, name, and slogan (of each site) in respective array
-                          mColors.add(site.getString("color"));
-                          mNames.add(site.getString("name"));
-                          mSlogans.add(site.getString("slogan"));
-
-                          //getting url and description here to save time fetching later
-                          mUrls.add(site.getString("url"));
-                          mDescs.add(site.getString("description"));
-                      }
-
-                  } catch (Exception e) {
-                      //catch any error
-                      e.printStackTrace();
-                  }
+                  getData();
               }
           });
 
@@ -126,6 +69,74 @@ public class SiteListActivity extends AppCompatActivity {
 
 
 
+      private void getData(){
+
+          try  {
+              //store result in string variable
+              String result = myClient.requestSites();
+              //create JSON object from result
+              final JSONObject obj = new JSONObject(result);
+              //create JSON array from sites array
+              final JSONArray sitesData = obj.getJSONArray("sites");
+
+              //sort objects by name
+              JSONArray sortedJsonArray = sortArray(sitesData);
+
+              //loop through each site in the sites array
+              for (int i = 0; i < sitesData.length(); ++i) {
+                  //create an object for each site
+                  final JSONObject site = sortedJsonArray.getJSONObject(i);
+
+                  //store the color, name, and slogan (of each site) in their respective array
+                  mColors.add(site.getString("color"));
+                  mNames.add(site.getString("name"));
+                  mSlogans.add(site.getString("slogan"));
+
+                  //getting url and description here to save time by avoiding to fetch later
+                  mUrls.add(site.getString("url"));
+                  mDescs.add(site.getString("description"));
+              }
+
+          } catch (Exception e) {
+              //catch any error
+              e.printStackTrace();
+          }
+
+      }
+
+      private JSONArray sortArray(JSONArray sitesData){
+          //start sort array (retrieved from stack overflow source) --------
+          JSONArray sortedJsonArray = new JSONArray();
+          List<JSONObject> jsonValues = new ArrayList<JSONObject>();
+          for (int i = 0; i < sitesData.length(); i++) {
+              try {
+                  jsonValues.add(sitesData.getJSONObject(i));
+              } catch (JSONException e) {
+                  e.printStackTrace();
+              }
+          }
+          Collections.sort( jsonValues, new Comparator<JSONObject>() {
+              private static final String KEY_NAME = "name";
+              @Override
+              public int compare(JSONObject a, JSONObject b) {
+                  String valA = new String();
+                  String valB = new String();
+                  try {
+                      valA = (String) a.get(KEY_NAME);
+                      valB = (String) b.get(KEY_NAME);
+                  }
+                  catch (JSONException e) { }
+                  return valA.compareTo(valB);
+              }
+          });
+
+          for (int i = 0; i < sitesData.length(); i++) {
+              sortedJsonArray.put(jsonValues.get(i));
+          }
+
+          //end sort array --------------------------------
+          return sortedJsonArray;
+      }
 
       private void initRecyclerView(){
 

@@ -7,3 +7,10 @@ you to SiteDetailsActivity where you can find details of the selected site.
 
 The SiteListActivity utilizes a recycler view adapter that generates the view for each cell
 that represent each site.
+
+When executing requestSite() within the main thread, I got an error
+NetworkOnMainThreadException. After doing research I found that,
+This exception is thrown when an application attempts to perform a networking
+operation on its main thread. 
+So I fixed this error by creating a new thread.
+
