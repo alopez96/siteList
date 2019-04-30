@@ -1,6 +1,7 @@
 package com.squarespace.interview.android;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,18 +13,24 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     //TAG string for debugging
     private static final String TAG = "RecyclerViewAdapter";
 
     //declare variables
-    private ArrayList<String> mNames = new ArrayList<>();
+    private ArrayList<String> colorList = new ArrayList<>();
+    private ArrayList<String> nameList = new ArrayList<>();
+    private ArrayList<String> sloganList = new ArrayList<>();
     private Context mContext;
 
     //default constructor for recycler view adapter
-    public RecyclerViewAdapter(ArrayList<String> mNames, Context mContext) {
-        this.mNames = mNames;
+    public RecyclerViewAdapter(ArrayList<String> colorList, ArrayList<String> nameList, ArrayList<String> sloganList, Context mContext) {
+        this.colorList = colorList;
+        this.nameList = nameList;
+        this.sloganList = sloganList;
         this.mContext = mContext;
     }
 
@@ -43,13 +50,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //log every time item is created
         Log.d(TAG, "onBindViewHolder: called");
 
-        viewHolder.textName.setText(mNames.get(i));
+        //viewHolder.colorView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        viewHolder.colorView.setCircleBackgroundColor(000000);
+
+        viewHolder.nameText.setText(nameList.get(i));
 
         //onCLickListener
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"clicked on " + mNames.get(i));
+                Log.d(TAG,"clicked on " + nameList.get(i));
             }
         });
 
@@ -58,20 +68,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public int getItemCount() {
         //tell adapter the number of list items in list
-        return mNames.size();
+        return nameList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         //declare widget items
-        TextView textName;
+        CircleImageView colorView;
+        TextView nameText;
+        TextView sloganText;
         RelativeLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            //attach widgets to their ids
-            textName = itemView.findViewById(R.id.name);
+            //attach widgets to ids
+            colorView = itemView.findViewById(R.id.color_view);
+            nameText = itemView.findViewById(R.id.name_tv);
+            sloganText = itemView.findViewById(R.id.slogan_tv);
+
             parentLayout = itemView.findViewById(R.id.parent_layout);
 
         }
