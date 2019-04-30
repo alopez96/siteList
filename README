@@ -1,0 +1,9 @@
+This android app shows a list of popular sites, as well as details about these sites.
+
+It uses the SquarespaceClient class that simulates a network call to an API.
+
+SiteListActivity shows a list of all the sites, and clicking on a site, will take
+you to SiteDetailsActivity where you can find details of the selected site.
+
+The SiteListActivity utilizes a recycler view adapter that generates the view for each cell
+that represent each site.
