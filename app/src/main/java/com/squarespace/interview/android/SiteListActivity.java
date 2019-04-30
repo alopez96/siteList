@@ -36,6 +36,7 @@ public class SiteListActivity extends AppCompatActivity {
     private ArrayList<String> mUrls = new ArrayList<>();
     private ArrayList<String> mDescs = new ArrayList<>();
 
+    //declare squareSpaceClient instance
     private SquarespaceClient myClient = new SquarespaceClient(this);
 
       @Override
@@ -68,9 +69,10 @@ public class SiteListActivity extends AppCompatActivity {
       }
 
 
-
+      //this function makes a request to the squareSpaceClient class to get list of sites
+      //and it adds the information to the arrays that are used to display the cells in the
+      //recyclerView (eg. name, color, slogan)
       private void getData(){
-
           try  {
               //store result in string variable
               String result = myClient.requestSites();
@@ -104,6 +106,9 @@ public class SiteListActivity extends AppCompatActivity {
 
       }
 
+      //this function sorts an JSONArray by name
+      //input: JSONArray
+      //output: JSONArray
       private JSONArray sortArray(JSONArray sitesData){
           //start sort array (retrieved from stack overflow source) --------
           JSONArray sortedJsonArray = new JSONArray();
@@ -138,8 +143,8 @@ public class SiteListActivity extends AppCompatActivity {
           return sortedJsonArray;
       }
 
+      //this function initializes the RecyclerViewAdapter
       private void initRecyclerView(){
-
           RecyclerView recyclerView =  findViewById(R.id.my_recycler_view);
           RecyclerViewAdapter adapter = new RecyclerViewAdapter(mColors, mNames, mSlogans, mUrls, mDescs, this);
           recyclerView.setAdapter(adapter);

@@ -59,6 +59,8 @@ public class SiteDetailsActivity extends AppCompatActivity {
 
   }
 
+  //this function gets the variables passed in from the RecyclerViewAdapter
+  //eg(color, name, slogan, url, desc)
   private void getInput(){
         //get string values from RecyclerViewAdapter
         color = getIntent().getStringExtra("color");
